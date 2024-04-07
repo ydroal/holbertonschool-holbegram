@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart'; 
+import './login_screen.dart';
 
 class SignUp extends StatefulWidget {
   final TextEditingController emailController;
@@ -164,7 +165,13 @@ class SignUpState extends State<SignUp> {
                   const Text('Have an account?'),
                   TextButton(
                     onPressed: () {
-                      // ログイン画面への遷移をここに追加
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen(
+                          emailController: TextEditingController(),
+                          passwordController: TextEditingController(),
+                        )), // 適切な引数を渡す
+                      );
                     },
                     child: const Text(
                       'Log in',
