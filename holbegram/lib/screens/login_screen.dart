@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
 import './sigup_screen.dart';
+import '../methods/auth_methods.dart';
+import '../main.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -103,8 +105,24 @@ class LoginScreenState extends State<LoginScreen> {
                     const RoundedRectangleBorder(borderRadius: BorderRadius.zero) // 角の丸みをなくす
                   ),
                 ),
-                onPressed: () {
-                  // ログイン処理をここに追加
+                onPressed: () async {
+                  String email = widget.emailController.text;
+                  String password = widget.passwordController.text;
+                  AuthMethode authLogin = AuthMethode();
+                  String userLogin = await authLogin.login(email: email, password: password);
+                  // 非同期操作の後にウィジェットがまだマウントされているかどうかをチェック
+                  if (mounted) {
+                    if (userLogin == 'success') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Login Successful')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyApp()),
+                        );
+                    }
+                  }
+
                 },
                 child: const Text(
                   'Log in',
