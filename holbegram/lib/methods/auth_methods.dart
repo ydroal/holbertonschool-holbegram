@@ -52,7 +52,7 @@ class AuthMethode {
           saved: [], // 空のまま初期化
           searchKey: username.substring(0, 1).toUpperCase(), 
         );
-        await _firestore.collection("users").doc(user.uid).set(newUser.toJson());
+        await _firestore.collection('users').doc(user.uid).set(newUser.toJson());
         return 'success';
       } else {
         return 'User creation failed';
@@ -61,5 +61,18 @@ class AuthMethode {
         return e.message ?? 'An error occurred';
     }
   }
-}
 
+  Future<Users> getUserDetails() async {
+    User? currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      DocumentSnapshot userSnap = await _firestore.collection('users').doc(currentUser.uid).get();
+      if (userSnap.exists) {
+        return Users.fromSnap(userSnap);
+      } else {
+        throw Exception('User not found');
+      }
+    } else {
+      throw Exception('User not found');
+    }
+  }
+}
