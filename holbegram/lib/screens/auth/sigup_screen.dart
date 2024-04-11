@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/text_field.dart'; 
 import 'login_screen.dart';
+import 'upload_image_screen.dart';
 
 class SignUp extends StatefulWidget {
   final TextEditingController emailController;
@@ -147,7 +148,16 @@ class SignUpState extends State<SignUp> {
                   ),
                 ),
                 onPressed: () {
-                  //  サインイン処理をここに追加
+                  String email = widget.emailController.text;
+                  String password = widget.passwordController.text;
+                  String username = widget.usernameController.text;
+                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddPicture(
+                      email: email, password: password, username: username
+                    )),
+                  );
                 },
                 child: const Text(
                   'Sign up',

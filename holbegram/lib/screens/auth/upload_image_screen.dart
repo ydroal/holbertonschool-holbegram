@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../methods/auth_methods.dart';
 
 
 class AddPicture extends StatefulWidget {
@@ -81,20 +82,20 @@ class AddPictureState extends State<AddPicture> {
               height: 60,
             ),
             const SizedBox(height: 28),
-            const Padding(
-              padding: EdgeInsets.only(left: 40, right: 40),
+            Padding(
+              padding: const EdgeInsets.only(left: 40, right: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello, John Doe Welcome to\nHolbegram.',
-                    style: TextStyle(
+                    'Hello, ${widget.username} Welcome to\nHolbegram.',
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 6),
-                  Text(
+                  const SizedBox(height: 6),
+                  const Text(
                     'Choose an image from your gallery or take a new one.',
                     style: TextStyle(
                       fontSize: 16, 
@@ -148,8 +149,21 @@ class AddPictureState extends State<AddPicture> {
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                   ),
                 ),
-                onPressed: () {
-                  // 後で実装
+                onPressed: () async {
+                  String email = widget.email;
+                  String username = widget.username;
+                  String password = widget.password;
+                  Uint8List? file = _image;
+                  AuthMethode authSignup = AuthMethode();
+                  String userSignup = await authSignup.signUpUser(email: email, password: password, username: username, file: file);
+                  // 非同期操作の後に現在のステートウィジェットがまだマウントされているかどうかをチェック
+                  if (context.mounted) {
+                    if (userSignup == 'success') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('success')),
+                      );
+                    }
+                  }
                 },
                 child: const Text('Next',
                   style: TextStyle(
