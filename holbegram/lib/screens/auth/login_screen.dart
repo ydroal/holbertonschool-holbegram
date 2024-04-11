@@ -1,49 +1,46 @@
 import 'package:flutter/material.dart';
-import '../widgets/text_field.dart'; 
-import './login_screen.dart';
+import '../../widgets/text_field.dart';
+import 'sigup_screen.dart';
+import '../../methods/auth_methods.dart';
+import '../../main.dart';
 
-class SignUp extends StatefulWidget {
+
+class LoginScreen extends StatefulWidget {
   final TextEditingController emailController;
-  final TextEditingController usernameController;
   final TextEditingController passwordController;
-  final TextEditingController passwordConfirmController;
 
   // コンストラクタ
-  const SignUp({
+  const LoginScreen({
     super.key,
     required this.emailController,
-    required this.usernameController,
     required this.passwordController,
-    required this.passwordConfirmController,
   });
 
   @override
-  SignUpState createState() => SignUpState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class SignUpState extends State<SignUp> {
+class LoginScreenState extends State<LoginScreen> {
   late bool passwordVisible; // パスワードの表示/非表示状態
-  late bool confirmPasswordVisible; // パスワードの表示/非表示状態
 
   @override
-    void initState() {
-      super.initState();
-      passwordVisible = true;
-      confirmPasswordVisible = true; 
-    }
+  void initState() {
+    super.initState();
+    passwordVisible = true; // 初期状態を設定
+  }
 
   @override
   void dispose() {
     widget.emailController.dispose();
-    widget.usernameController.dispose();
     widget.passwordController.dispose();
-    widget.passwordConfirmController.dispose();
     super.dispose();
   }
-  
+
+  // UIの構築
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // AppBarなし、余分なナビゲーション要素は省略
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -63,17 +60,6 @@ class SignUpState extends State<SignUp> {
               height: 60,
             ),
             const SizedBox(height: 28),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30), 
-              child: const Text(
-                'Sign up to see photos and videos from your friends.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            const SizedBox(height: 28),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -84,14 +70,6 @@ class SignUpState extends State<SignUp> {
                     isPassword: false,
                     hintText: 'Email',
                     keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 24),
-                  // 名前入力フィールド
-                  TextFieldInput(
-                    controller: widget.usernameController,
-                    isPassword: false,
-                    hintText: 'Full Name',
-                    keyboardType: TextInputType.name,
                   ),
                   const SizedBox(height: 24),
                   // パスワード入力フィールド
@@ -112,30 +90,11 @@ class SignUpState extends State<SignUp> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  // パスワード確認入力フィールド
-                  TextFieldInput(
-                    controller: widget.passwordConfirmController,
-                    isPassword: !confirmPasswordVisible,
-                    hintText: 'Confirm Password',
-                    keyboardType: TextInputType.visiblePassword,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        confirmPasswordVisible  ? Icons.visibility : Icons.visibility_off,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          confirmPasswordVisible = !confirmPasswordVisible;
-                        });
-                      },
-                    ),
-                  ),
                   const SizedBox(height: 28),
                 ],
               ),
             ),
-            // サインナップボタン
+            // ログインボタン
             SizedBox(
               height: 48,
               width: double.infinity, // ボタンを幅いっぱいに広げる
@@ -146,14 +105,41 @@ class SignUpState extends State<SignUp> {
                     const RoundedRectangleBorder(borderRadius: BorderRadius.zero) // 角の丸みをなくす
                   ),
                 ),
-                onPressed: () {
-                  //  サインイン処理をここに追加
+                onPressed: () async {
+                  String email = widget.emailController.text;
+                  String password = widget.passwordController.text;
+                  AuthMethode authLogin = AuthMethode();
+                  String userLogin = await authLogin.login(email: email, password: password);
+                  // 非同期操作の後に現在のステートウィジェットがまだマウントされているかどうかをチェック
+                  if (context.mounted) {
+                    if (userLogin == 'success') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Login Successful')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MyApp()),
+                        );
+                    }
+                  }
                 },
                 child: const Text(
-                  'Sign up',
+                  'Log in',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+            ),
+            const SizedBox(height: 24),
+            // 「ログイン詳細を忘れましたか？」のテキスト
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Forgot your login details? '),
+                Text(
+                  'Get help logging in',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
             const Divider(thickness: 2), // 区切り線
@@ -162,24 +148,57 @@ class SignUpState extends State<SignUp> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Have an account?'),
+                  const Text("Don't have an account "),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginScreen(
+                        MaterialPageRoute(builder: (context) => SignUp(
                           emailController: TextEditingController(),
+                          usernameController: TextEditingController(),
                           passwordController: TextEditingController(),
+                          passwordConfirmController: TextEditingController()
                         )), // 適切な引数を渡す
                       );
                     },
                     child: const Text(
-                      'Log in',
+                      'Sign up',
                       style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(218, 226, 37, 24)),
                     ),
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 10),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Divider(thickness: 2),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Text('OR'),
+                ),
+                Flexible(
+                  child: Divider(thickness: 2),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            // Googleでサインインボタン
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png', // Googleロゴのパスを設定
+                  width: 40,
+                  height: 40,
+                ),
+                const SizedBox(width: 10),
+                const Text("Sign in with Google"),
+              ],
             ),
             const SizedBox(height: 24),
           ],
@@ -189,3 +208,4 @@ class SignUpState extends State<SignUp> {
   }
 }
 
+  
