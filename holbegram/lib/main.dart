@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import './widgets/text_field.dart';
+// import './screens/login_screen.dart';
+import './screens/pages/feed.dart';
+// import 'screens/auth/sigup_screen.dart';
+// import 'screens/auth/upload_image_screen.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,32 +17,68 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     title: 'Flutter Demo',
+  //     theme: ThemeData(
+  //       primarySwatch: Colors.blue,
+  //     ),
+  //     home: const AddPicture(
+  //       email: 'ydroal@gmail.com',
+  //       password: 'test123',
+  //       username: 'Yoko',
+  //     ), // ここでLoginScreenを初期画面として指定
+  //   );
+  // }
+// }
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+      home: const Feed(),
+      ); // ここでLoginScreenを初期画面として指定
   }
 }
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: SignUp(
+//         emailController: TextEditingController(),
+//         usernameController: TextEditingController(),
+//         passwordController: TextEditingController(),
+//         passwordConfirmController: TextEditingController(),
+//       ), // ここでLoginScreenを初期画面として指定
+//     );
+//   }
+// }
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+        
+//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+//         useMaterial3: true,
+//       ),
+//       home: Scaffold(
+//         appBar: AppBar(title: const Text('TextField Example')),
+//         body: Center(
+//           child: TextFieldInput(
+//             controller: TextEditingController(),
+//             isPassword: true, // もしくは true にする
+//             hintText: 'Password', // もしくは 'Password' にする
+//             keyboardType: TextInputType.emailAddress, // あるいは TextInputType.text
+//             suffixIcon: const Icon(Icons.visibility_off), // あるいは isPassword が true の場合は Icon(Icons.visibility_off)
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
