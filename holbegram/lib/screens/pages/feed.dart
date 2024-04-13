@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-// import '../../models/posts.dart';
+import '../../utils/posts.dart';
+
 
 class Feed extends StatelessWidget {
   const Feed({super.key});
@@ -34,10 +35,7 @@ class Feed extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        alignment: Alignment.center,
-        child: const Text('Posts() here'),
-      ),
+      body: const Posts(),
     );
   }
 }
