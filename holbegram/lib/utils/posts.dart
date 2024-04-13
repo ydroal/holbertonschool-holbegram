@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../screens/pages/methods/post_storage.dart';
 // import 'package:provider/provider.dart';
 
 
 class Posts extends StatefulWidget {
-  const Posts({super.key});
+  Posts({super.key});
+  final PostStorage postStorage = PostStorage(); 
 
   @override
   PostsState createState() => PostsState();
@@ -66,8 +68,18 @@ class PostsState extends State<Posts> {
                         const Spacer(),
                         IconButton(
                           icon: const Icon(Icons.more_horiz),
-                          onPressed: () {
-                            // Show snack with Text “Post Deleted”
+                          onPressed: () async {
+                            try {
+                              await widget.postStorage.deletePost(docData['postId']);
+                              if (!context.mounted) return; 
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Post Deleted'))
+                                );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('delete post Failed'))
+                              );
+                            }
                           },
                         ),
                       ],
@@ -87,7 +99,7 @@ class PostsState extends State<Posts> {
                         image: NetworkImage(docData['postUrl']),
                       ),
                     ),
-                    // Add the missing Icons that appear in the Picture
+                    // ここにアイコン追加予定（Add the missing Icons that appear in the Picture）
                   ),
                 ],
               ),
