@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import './widgets/text_field.dart';
 // import './screens/login_screen.dart';
-import './screens/pages/feed.dart';
+// import './screens/pages/feed.dart';
 // import 'screens/auth/sigup_screen.dart';
 // import 'screens/auth/upload_image_screen.dart';
+import 'screens/pages/add_image.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Feed(),
+      home: const AddImage(),
       ); // ここでLoginScreenを初期画面として指定
   }
 }

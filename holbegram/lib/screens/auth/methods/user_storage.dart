@@ -7,11 +7,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 // 特定のストレージパスに画像をアップロードする
 class StorageMethods {
-    final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> uploadImageToStorage(
-      bool isPost,
+    bool isPost,
     String childName,
     Uint8List file,
 

@@ -77,7 +77,7 @@ class AddPictureState extends State<AddPicture> {
               ),
             ),
             Image.asset(
-              'assets/images/logo.webp', // ここにロゴのアセットへのパスを指定
+              'assets/images/logo.webp',
               width: 80,
               height: 60,
             ),
