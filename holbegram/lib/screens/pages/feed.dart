@@ -26,11 +26,11 @@ class Feed extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.feed),
+            icon: const Icon(Icons.add),
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.feed),
+            icon: const Icon(Icons.message_outlined),
             onPressed: () {},
           ),
         ],

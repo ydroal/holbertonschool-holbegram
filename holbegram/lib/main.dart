@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/widgets.dart';
 // import './widgets/text_field.dart';
-// import './screens/login_screen.dart';
+import './screens/auth/login_screen.dart';
 // import './screens/pages/feed.dart';
 // import 'screens/auth/sigup_screen.dart';
 // import 'screens/auth/upload_image_screen.dart';
@@ -18,30 +20,20 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     title: 'Flutter Demo',
-  //     theme: ThemeData(
-  //       primarySwatch: Colors.blue,
-  //     ),
-  //     home: const AddPicture(
-  //       email: 'ydroal@gmail.com',
-  //       password: 'test123',
-  //       username: 'Yoko',
-  //     ), // ここでLoginScreenを初期画面として指定
-  //   );
-  // }
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const AddPicture(
+//         email: 'test@mail.com',
+//         password: 'test123',
+//         username: 'taro',
+//       ), // ここでLoginScreenを初期画面として指定
+//     );
+//   }
 // }
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const AddImage(),
-      ); // ここでLoginScreenを初期画面として指定
-  }
-}
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
 //       title: 'Flutter Demo',
@@ -53,10 +45,30 @@ class MyApp extends StatelessWidget {
 //         usernameController: TextEditingController(),
 //         passwordController: TextEditingController(),
 //         passwordConfirmController: TextEditingController(),
-//       ), // ここでLoginScreenを初期画面として指定
+//       ), 
 //     );
 //   }
 // }
+  Widget build(BuildContext context) {
+    // FirebaseAuthインスタンスを取得
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    // 現在のユーザーを取得
+    final User? currentUser = auth.currentUser;
+
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      // ユーザーがログインしているかどうかをチェック
+      home: currentUser != null ? const AddImage() : LoginScreen(
+        emailController: TextEditingController(),
+        passwordController:TextEditingController(),
+      ),
+    );
+  }
+}
+  
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
 //       title: 'Flutter Demo',

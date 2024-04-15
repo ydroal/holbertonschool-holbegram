@@ -20,9 +20,12 @@ class PostStorage {
         'caption': caption,
         'uid': uid,
         'username': username,
+        'likes': 0, 
+        'postId': '', // 後で設定する
+        'datePublished': FieldValue.serverTimestamp(), 
+        'postUrl': imageUrl, 
         'profImage': profImage,
-        'imageUrl': imageUrl,
-        'timestamp': FieldValue.serverTimestamp(),
+        'searchKey': username.substring(0, 1).toUpperCase(), 
       });
       return 'Ok';
     } catch (e) {

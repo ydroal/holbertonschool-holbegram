@@ -35,6 +35,9 @@ class BottomNavState extends State<BottomNav> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
+        onPageChanged: (index) {
+          setState(() => _currentIndex = index);
+        },
         children: const [
           Feed(),
           Search(),
@@ -42,9 +45,6 @@ class BottomNavState extends State<BottomNav> {
           Favorite(),
           Profile(),
         ],
-        // onPageChanged: (index) {
-        //   setState(() => _currentIndex = index);
-        // },
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
@@ -53,18 +53,19 @@ class BottomNavState extends State<BottomNav> {
         curve: Curves.easeInBack,
         onItemSelected: (index) {
           setState(() => _currentIndex = index);
-          // _pageController.jumpToPage(index);
+          _pageController.animateToPage(index,
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
         },
         items: [
           BottomNavyBarItem(
-            icon: const Icon(Icons.feed),
-            title: const Text('Feed',
+            icon: const Icon(Icons.home),
+            title: const Text('Home',
             style: TextStyle(
                 fontSize: 25,
                 fontFamily: 'Billabong',
               )
             ),
-            activeColor: Colors.white,
+            activeColor: const Color.fromARGB(218, 226, 37, 24),
             textAlign: TextAlign.center,
             inactiveColor: Colors.black,
             ),
@@ -76,19 +77,19 @@ class BottomNavState extends State<BottomNav> {
                 fontFamily: 'Billabong',
               )
             ),
-            activeColor: Colors.white,
+            activeColor: const Color.fromARGB(218, 226, 37, 24),
             textAlign: TextAlign.center,
             inactiveColor: Colors.black,
             ),
           BottomNavyBarItem(
-            icon: const Icon(Icons.add_a_photo),
-            title: const Text('Add Image',
+            icon: const Icon(Icons.add),
+            title: const Text('Add',
             style: TextStyle(
                 fontSize: 25,
                 fontFamily: 'Billabong',
               )
             ),
-            activeColor: Colors.white,
+            activeColor: const Color.fromARGB(218, 226, 37, 24),
             textAlign: TextAlign.center,
             inactiveColor: Colors.black,
             ),
@@ -100,7 +101,7 @@ class BottomNavState extends State<BottomNav> {
                 fontFamily: 'Billabong',
               )
             ),
-            activeColor: Colors.white,
+            activeColor: const Color.fromARGB(218, 226, 37, 24),
             textAlign: TextAlign.center,
             inactiveColor: Colors.black,
             ),
@@ -112,7 +113,7 @@ class BottomNavState extends State<BottomNav> {
                 fontFamily: 'Billabong',
               )
             ),
-            activeColor: Colors.white,
+            activeColor: const Color.fromARGB(218, 226, 37, 24),
             textAlign: TextAlign.center,
             inactiveColor: Colors.black,
             ),

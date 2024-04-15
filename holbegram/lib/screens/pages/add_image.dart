@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import './methods/post_storage.dart';
 import '../../methods/auth_methods.dart';
 import '../../models/user.dart';
+import '../home.dart';
 
 
 class AddImage extends StatefulWidget {
@@ -48,25 +49,37 @@ class AddImageState extends State<AddImage> {
   }
 
   void _postImage() async {
-    if (_image == null) return;
-    Users userData = await authMethod.getUserDetails();
-
-    // ユーザー情報を取得
-    String caption = captionController.text;
-    String uid = userData.uid;
-    String username = userData.username;
-    String profImage = userData.photoUrl;
-
-    // 画像の投稿と結果の処理
-    String result = await _postStorage.uploadPost(caption, uid, username, profImage, _image!);
-    
-    if (!mounted) {
+    debugPrint('Caption: ${captionController.text}');
+    debugPrint('Image selected: ${_image != null}');
+    if (_image == null || captionController.text.isEmpty) {
+      debugPrint('something is missing');
       return;
     }
-    if (result == 'Ok') {
-      Navigator.pushReplacementNamed(context, '../home');
-    } else {
-      debugPrint(result);
+    try {
+      Users userData = await authMethod.getUserDetails();
+      String caption = captionController.text; 
+      String uid = userData.uid;
+      String username = userData.username;
+      String profImage = userData.photoUrl;
+
+      debugPrint('uid: $uid');
+      debugPrint('username: $username');
+      debugPrint('profImage: $profImage');
+
+     
+      String result = await _postStorage.uploadPost(caption, uid, username, profImage, _image!);
+      
+      if (!mounted) return;
+      if (result == 'Ok') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+        );
+      } else {
+        debugPrint(result);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 
@@ -165,7 +178,6 @@ class AddImageState extends State<AddImage> {
                 ),
               ),
             ),
-          const SizedBox(height: 20),
         ],
       ),
       )
