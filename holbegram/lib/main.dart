@@ -7,13 +7,31 @@ import './screens/auth/login_screen.dart';
 // import './screens/pages/feed.dart';
 // import 'screens/auth/sigup_screen.dart';
 // import 'screens/auth/upload_image_screen.dart';
-import 'screens/pages/add_image.dart';
+import 'screens/home.dart';
+// import 'providers/user_provider.dart';
+// import 'screens/pages/profile_screen.dart';
+// import 'screens/pages/add_image.dart';
+// import 'package:provider/provider.dart';
+
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
+
+// Future main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (context) => UserProvider()),
+//       ],
+//       child: const MyApp(),
+//     ),
+//   );
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -49,6 +67,21 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       // ユーザーがログインしているかどうかをチェック
+//       home: const Profile(),
+//     );
+//   }
+// }
+
+
+
   Widget build(BuildContext context) {
     // FirebaseAuthインスタンスを取得
     final FirebaseAuth auth = FirebaseAuth.instance;
@@ -61,7 +94,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // ユーザーがログインしているかどうかをチェック
-      home: currentUser != null ? const AddImage() : LoginScreen(
+      home: currentUser != null ? const Home() : LoginScreen(
         emailController: TextEditingController(),
         passwordController:TextEditingController(),
       ),

@@ -16,7 +16,7 @@ class PostStorage {
     try {
       // 第2引数は画像ファイルを保存するFirebase Storage内のディレクトリ名
       String imageUrl = await _storageMethods.uploadImageToStorage(true, 'post_images', image); 
-      await _firestore.collection('posts').add({
+      DocumentReference postRef = await _firestore.collection('posts').add({
         'caption': caption,
         'uid': uid,
         'username': username,
@@ -26,6 +26,15 @@ class PostStorage {
         'postUrl': imageUrl, 
         'profImage': profImage,
         'searchKey': username.substring(0, 1).toUpperCase(), 
+      });
+
+      await postRef.update({
+            'postId': postRef.id, // postIdを追加
+        });
+
+      //postIdをUsersのposts[]に追加
+      await _firestore.collection('users').doc(uid).update({
+          'posts': FieldValue.arrayUnion([postRef.id])
       });
       return 'Ok';
     } catch (e) {

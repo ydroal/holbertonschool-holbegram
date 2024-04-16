@@ -16,7 +16,7 @@ class Favorite extends StatelessWidget {
         title: const Text(
           'Favorites',
           style: TextStyle(
-            fontSize: 30,
+            fontSize: 40,
             fontFamily: 'Billabong',
           ),
         ), // ページタイトル
@@ -29,7 +29,16 @@ class Favorite extends StatelessWidget {
               children: <Widget>[
                 const Text('Please log in'),
                 ElevatedButton(
-                  child: const Text('Login'),
+                  style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(const Color.fromARGB(218, 226, 37, 24)),
+                  shape: MaterialStateProperty.all(
+                    const RoundedRectangleBorder(borderRadius: BorderRadius.zero) 
+                  ),
+                ),
+                  child: const Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white),
+                    ),
                   onPressed: () {
                     Navigator.push(
                       context,
