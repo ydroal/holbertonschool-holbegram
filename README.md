@@ -1,6 +1,6 @@
 # Holbegram
 
-<img src="assets/Holbegram.png" width="500" alt="Holbegram Screenshot">
+<img src="assets/Holbegram.png" width="350" alt="Holbegram Screenshot">
 
 ## Introduction
 This project, developed at Holberton School, is a Flutter-based iOS application that mimics Instagram. It allows users to post and share photos, offering a social platform tailored for simplicity and ease of use.
