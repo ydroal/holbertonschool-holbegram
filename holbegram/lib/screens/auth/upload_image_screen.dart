@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../methods/auth_methods.dart';
+import '../pages/feed.dart';
 
 
 class AddPicture extends StatefulWidget {
@@ -99,7 +100,7 @@ class AddPictureState extends State<AddPicture> {
                     'Choose an image from your gallery or take a new one.',
                     style: TextStyle(
                       fontSize: 16, 
-                      fontWeight: FontWeight.bold,// Adjust the font size as needed
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -161,6 +162,10 @@ class AddPictureState extends State<AddPicture> {
                     if (userSignup == 'success') {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('success')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Feed()),
                       );
                     }
                   }
